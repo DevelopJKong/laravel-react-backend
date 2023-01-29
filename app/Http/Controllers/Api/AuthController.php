@@ -43,7 +43,7 @@ class AuthController extends Controller
             return response([
                 'ok' => $ok,
                 'error' => 'wrongInfo',
-                'message' => 'Provided email address or password is incorrect',
+                'message' => '이메일 또는 비밀번호가 틀렸습니다.',
             ]);
         }
 

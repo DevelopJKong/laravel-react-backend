@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class SignupRequest extends FormRequest
 {
@@ -32,7 +34,26 @@ class SignupRequest extends FormRequest
                 'string',
                 'min:8',
                 'max:255',
+                'required_with:confirmPassword',
+                'same:confirmPassword',
+            ],
+            'confirmPassword' => [
+                'string',
+                'min:8',
+                'max:255',
             ],
         ];
+    }
+    /**
+     * Get the error messages for the defined validation rules.*
+     * @return array
+     */
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'ok' => false,
+            'errors' => $validator->errors(),
+            'status' => 422,
+        ], 422));
     }
 }
