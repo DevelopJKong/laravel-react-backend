@@ -21,17 +21,17 @@ class SignupRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
+    // ! rule에 대해서 정확하게 파악을 해 두어야 할거 같다
     public function rules()
     {
         return [
             'name' => 'required|string|max:55',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|string|email|max:255',
             'password' => [
                 'required',
                 'string',
                 'min:8',
                 'max:255',
-                'confirmed',
             ],
         ];
     }
