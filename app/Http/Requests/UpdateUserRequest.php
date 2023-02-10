@@ -26,7 +26,8 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:55',
-            'email' => 'required|email|unique:users,email,' . $this->id, // ! 정확히 무슨 뜻인지? 모르겠다
+            // ! 유저가 수정할때는 자기 자신의 이메일을 제외하고 중복체크를 해야한다.
+            'email' => 'required|email|unique:users,email,' . $this->id,
             'password' => [
                 'confirmed',
                 Password::min(8)

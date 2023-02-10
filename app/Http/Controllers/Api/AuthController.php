@@ -14,22 +14,17 @@ class AuthController extends Controller
     {
         /** @var \App\Model\User $user */
         $data = $request->validated();
-        $user = User::create([
+        User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
-
-        // ! 라라벨 토큰은 정확히 어떻게 동작 하는건지 파악 필요
-        $token = $user->createToken('main')->plainTextToken;
 
         // return response->compact('user, 'token');
         // ! 위 처럼 사용할수있지만 아래처럼 사용하는게 더 좋은거 같다
         return response()->json([
             'ok' => true,
             'error' => null,
-            'user' => $user,
-            'token' => $token,
         ]);
 
     }
@@ -49,9 +44,10 @@ class AuthController extends Controller
         /**
          * @var \App\Models\User $user
          */
+        // $check = $user->tokens()->first();
 
         $user = Auth::user(); // ! 왜 password는 빠져있는거지? 어떻게 동작하는거지?
-        $token = $user->createToken('main')->plainTextToken;
+        $token = $user->createToken('login')->plainTextToken;
         return response()->json([
             'ok' => $ok,
             'error' => null,
